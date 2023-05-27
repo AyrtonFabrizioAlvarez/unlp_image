@@ -7,8 +7,7 @@ def meme():
     """ "Genera el layout de pestaña memes"""
 
     layout = [
-        [sg.Text("ACA VA LA EDICION DE IMAGENES DE MEME", pad=((0, 0),
-                                                               (150, 0)))],
+        [sg.Text("ACA VA LA EDICION DE IMAGENES DE MEME", pad=((0, 0), (150, 0)))],
         [
             sg.Push(),
             sg.Image(

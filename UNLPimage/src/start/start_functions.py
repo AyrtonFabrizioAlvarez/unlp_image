@@ -17,37 +17,48 @@ def start():
     """Crea la ventana con el tema y el layout deseados"""
     sg.theme(THEME)
     layout = [
-        [sg.Text('UNLPImage', font=FONT_TITLE), sg.Push()],
-        [sg.Push(), sg.Image(key='-PROFILE_3-',
-                             enable_events=True, pad=((0, 0), (100, 0))),
-         sg.Image(key='-PROFILE_2-', enable_events=True,
-                  pad=((0, 0), (100, 0))),
-         sg.Image(key='-PROFILE_1-', enable_events=True,
-                  pad=((0, 0), (100, 0))),
-         sg.Image(key='-PROFILE_0-', enable_events=True,
-                  pad=((0, 0), (100, 0))),
-         sg.Image(key='-CREATE-', source=PATH_PLUS_ICO,
-                  enable_events=True, subsample=0,
-                  pad=((0, 0), (100, 0))),
-         sg.Push()],
-        [sg.Button('Ver mas', key='-SEE_MORE-',
-                   font=FONT_BODY, pad=((350, 0), (50, 0)))]
+        [sg.Text("UNLPImage", font=FONT_TITLE), sg.Push()],
+        [
+            sg.Push(),
+            sg.Image(key="-PROFILE_3-", enable_events=True, pad=((0, 0), (100, 0))),
+            sg.Image(key="-PROFILE_2-", enable_events=True, pad=((0, 0), (100, 0))),
+            sg.Image(key="-PROFILE_1-", enable_events=True, pad=((0, 0), (100, 0))),
+            sg.Image(key="-PROFILE_0-", enable_events=True, pad=((0, 0), (100, 0))),
+            sg.Image(
+                key="-CREATE-",
+                source=PATH_PLUS_ICO,
+                enable_events=True,
+                subsample=0,
+                pad=((0, 0), (100, 0)),
+            ),
+            sg.Push(),
+        ],
+        [
+            sg.Button(
+                "Ver mas", key="-SEE_MORE-", font=FONT_BODY, pad=((350, 0), (50, 0))
+            )
+        ],
     ]
-    return sg.Window('Inicio', layout, size=WINDOW_SIZE,
-                     finalize=True, enable_close_attempted_event=True)
+    return sg.Window(
+        "Inicio",
+        layout,
+        size=WINDOW_SIZE,
+        finalize=True,
+        enable_close_attempted_event=True,
+    )
 
 
 # LECTURA DE USUARIOS
 def read_users():
     """Lee el json de usuarios y lo retorna.
     En caso de que no este el archivo indicara que este no existe"""
-    route = os.path.join(PATH_DATA_JSON, 'usuarios.json')
+    route = os.path.join(PATH_DATA_JSON, "usuarios.json")
     try:
-        with open(route, "r", encoding='utf-8') as file:
+        with open(route, "r", encoding="utf-8") as file:
             users = json.load(file)
         return users
     except FileNotFoundError:
-        print('EL ARCHIVO QUE INTENTA ABRIR NO EXISTE')
+        print("EL ARCHIVO QUE INTENTA ABRIR NO EXISTE")
 
 
 # ACTUALIZAION DE IMAGENES
@@ -64,7 +75,7 @@ def set_image(window, users, counter, i, current_users):
     recibida por button_imgs y devolver el counter restandole 1.
     si no tiene imagen de perfil actualiza la ventana con la
     default"""
-    img_name = users[counter]['avatar']
+    img_name = users[counter]["avatar"]
     img_route = os.path.join(PATH_IMAGE_AVATAR, img_name)
     if os.path.exists(img_route):
         window[f"-PROFILE_{i}-"].update(source=img_route, subsample=8)
@@ -82,7 +93,7 @@ def button_imgs(qty_users, counter, window, users):
     que van a aparecer, window que es la ventana de inicio y
     users que es la lista con todos los usuarios y sus datos.
     La funcion lee los usuarios y los asigna a los
-    perfiles en la ventana. Retorna el auxiliar counter para 
+    perfiles en la ventana. Retorna el auxiliar counter para
     ubicar donde seguir en proximas lecturas y asignaciones y
     current_users que son los usuarios que estan siendo
     representados"""
@@ -107,13 +118,13 @@ def profile_modifications(profiles, window, i):
     e i que es el indice de que perfil es.
     La funcion actualiza la imagen del perfil al
     volver de la ventana main"""
-    profiles[i] = get_user(profiles[i]['nick'])
-    img_name = profiles[i]['avatar']
+    profiles[i] = get_user(profiles[i]["nick"])
+    img_name = profiles[i]["avatar"]
     img_route = os.path.join(PATH_IMAGE_AVATAR, img_name)
     if os.path.exists(img_route):
         window[f"-PROFILE_{i}-"].update(source=img_route, subsample=8)
     else:
         avatar_img = os.path.join(PATH_IMAGE_AVATAR, AVATAR_DEFAULT)
         window[f"-PROFILE_{i}-"].update(source=avatar_img, subsample=8)
-        profiles[i]['avatar'] = AVATAR_DEFAULT
+        profiles[i]["avatar"] = AVATAR_DEFAULT
     return profiles

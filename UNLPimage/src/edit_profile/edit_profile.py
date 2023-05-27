@@ -1,13 +1,12 @@
 import PySimpleGUI as sg
+from PIL import Image
+import os
 
-# CONSTANTES
 from UNLPimage.common.const import WINDOW_SIZE, THEME, FONT_BODY, FONT_TITLE
 from UNLPimage.common.path import PATH_BACK_ICO, PATH_IMAGE_AVATAR
-
-# FUNCIONES PROPIAS, PARA UNIFICAR Y NO REPETIR CODIGO EDIT USA
-# VARIAS FUNCIONES DE NEW_PROFILE_FUNCTIONS (NEW_FUNCTIONS)
 import UNLPimage.src.edit_profile.edit_profile_functions as edit_functions
 import UNLPimage.src.new_profile.new_profile_functions as new_functions
+from UNLPimage.src.classes.log import Log
 
 
 def edit_profile_window():
@@ -20,10 +19,12 @@ def edit_profile_window():
         [
             sg.Input(
                 key="-NICK-",
-                font=FONT_BODY,
+                font=("Arial", 12, "italic"),
                 size=(35, 2),
                 readonly=True,
                 pad=((10, 10), (8, 8)),
+                disabled_readonly_background_color="#86a6df",
+                tooltip="Campo inmutable",
             )
         ],
         [sg.Text("Nombre", font=FONT_BODY, pad=((10, 10), (10, 10)))],
@@ -46,11 +47,17 @@ def edit_profile_window():
                 pad=((10, 10), (8, 8)),
             )
         ],
-        [sg.Text("Genero Autopercibido", font=FONT_BODY, pad=((10, 10),
-                                                              (8, 8)))],
+        [sg.Text("Genero Autopercibido", font=FONT_BODY, pad=((10, 10), (8, 8)))],
         [
             sg.Combo(
-                ("Masculino", "Femenino", "No Binario"),
+                (
+                    "Varon cis",
+                    "Varon trans",
+                    "Mujer cis",
+                    "Mujer trans",
+                    "No Binarie",
+                    "Otre",
+                ),
                 key="-GENDER-",
                 font=FONT_BODY,
                 auto_size_text=True,
@@ -74,6 +81,7 @@ def edit_profile_window():
                 key="-GENDER INPUT-",
                 size=(35, 2),
                 visible=False,
+                enable_events=True,
                 pad=((10, 10), (8, 8)),
             )
         ],
@@ -91,8 +99,7 @@ def edit_profile_window():
         [sg.Image(key="AVATAR", pad=((90, 0), (25, 0)))],
         [
             sg.Input(
-                key="-AVATAR URL-", font=FONT_BODY, visible=False,
-                enable_events=True
+                key="-AVATAR URL-", font=FONT_BODY, visible=False, enable_events=True
             ),
             sg.FileBrowse(
                 "Seleccionar Avatar",
@@ -103,10 +110,7 @@ def edit_profile_window():
         ],
         [
             sg.Push(),
-            sg.Button(
-                "Guardar", key="GUARDAR EDIT", border_width=0,
-                pad=((350, 0), (40, 0))
-            ),
+            sg.Button("Guardar", key="-EDIT-", border_width=0, pad=((350, 0), (40, 0))),
         ],
     ]
     layout = [
@@ -124,58 +128,51 @@ def edit_profile_window():
     )
 
 
-def run(active_user):
+def run(initial_user):
     """Esta funcion contiene la logica de la ventana edit_profile"""
     window = edit_profile_window()
-    edit_functions.get_active_user_data(window, active_user.lower())
-    initial_user = new_functions.get_user(window["-NICK-"].get())
+    edit_functions.fill_inputs(window, initial_user)
 
     while True:
         event, values = window.read()
         match event:
             case "-EXIT-":
-                # NO SE CAMBIA NADA DEL ARCHIVO Y RETORNO EL USUARIO INICIAL
                 window.Hide()
+                new_functions.delete_img_before_back("temporary_img")
                 return initial_user
             case sg.WIN_CLOSE_ATTEMPTED_EVENT:
-                # PIDO CONFIRMACION PARA CERRAR LA VENTANA
                 confirm = sg.popup_yes_no("¿Está seguro que desea salir?")
                 if confirm == "Yes":
                     exit()
             case "-NICK-":
-                # VERIFICO ESTADO DE INPUTS PARA "LIMPIARLOS"
-                new_functions.clear_inputs(window)
+                new_functions.clear_input(window["-NICK-"])
             case "-NAME-":
-                # VERIFICO ESTADO DE INPUTS PARA "LIMPIARLOS"
-                new_functions.clear_inputs(window)
+                new_functions.clear_input(window["-NAME-"])
             case "-AGE-":
-                # VERIFICO ESTADO DE INPUTS PARA "LIMPIARLOS"
-                new_functions.clear_inputs(window)
+                new_functions.clear_input(window["-AGE-"])
+            case "-GENDER INPUT-":
+                new_functions.clear_input(window["-GENDER INPUT-"])
             case "-CHECKBOX-":
-                # VERIFICO SI EL CHECKBOX ESTA PRESIONADO Y LO DEJO EN SU
-                # VALOR INVERSO
-                window["-GENDER INPUT-"].update(
-                    visible=(not window["-GENDER INPUT-"].visible)
+                new_functions.change_gender_input(
+                    window["-GENDER INPUT-"], window["-GENDER-"]
                 )
-            case "GUARDAR EDIT":
-                # EDITO EL USUARIO INGRESADO
-                user, ok = edit_functions.edit_user(window, values,
-                                                    initial_user)
-                if ok:
-                    window.Hide()
-                    if initial_user.values() != user.values():
-                        # SI SE REALIZARON MODIFICACIONES DEVUELVO ESE
-                        # USUARIO MODIFICADO
-                        return user
+            case "-EDIT-":
+                confirm = sg.popup_yes_no("¿Está seguro que desea editar el usuario?")
+                if confirm == "Yes":
+                    user, ok = edit_functions.edit_user(window, values, initial_user)
+                    new_functions.delete_img_before_back("temporary_img")
+                    if ok:
+                        window.Hide()
+                        if initial_user.values() != user.values():
+                            Log.nick = user["nick"]
+                            Log.write_log("Edito su usuario")
+                            return user
+                        else:
+                            return initial_user
                     else:
-                        # SI NO SE REALIZARON MODIFICACIONES DEVUELVO EL
-                        # USUARIO ORIGINAL
-                        return initial_user
-                else:
-                    sg.popup("Verifique los datos ingresados")
+                        sg.popup("Verifique los datos ingresados")
             case "-AVATAR URL-":
-                # ACTUALIZO AVATAR
-                img_path = window["-AVATAR URL-"].get()
-                path = new_functions.user_img(window, img_path)
-                window["AVATAR"].update(source=path, subsample=4)
+                img_url = window["-AVATAR URL-"].get()
+                window["AVATAR"].update(img_url, subsample=4)
+                new_functions.create_user_img(img_url, "temporary_img")
     window.close()

@@ -2,15 +2,12 @@ import os
 import json
 from PIL import Image, ImageDraw
 
-# CONSTANTES
 from UNLPimage.common.path import PATH_IMAGE_AVATAR, PATH_DATA_JSON
-
-# FUNCIONES PROPIAS
 import UNLPimage.src.new_profile.new_profile_functions as new_functions
 
 
 # FUNCION PARA EDITAR UN USUARIO EN EL ARCHIVO JSON
-def edit_json_user(user: dict):
+def edit_json_user(user: dict) -> None:
     """Esta funcion recibe un diccionario con los datos del usuario buscado.
     Al encontrarlo modifica los datos del mismo (excepto el campo nick)"""
     path = PATH_DATA_JSON
@@ -31,119 +28,58 @@ def edit_json_user(user: dict):
         file.write(json.dumps(data, indent=4))
 
 
-# ARMAMOS UN DICCIONARIO CON LOS VALORES INGRESADOS SEGUN SI ESTA 
-# O NO EL CHECKBOX
-def read_inputs_edit(window: object, value: dict, initial_user: dict) -> dict:
-    """Esta funcion va a tomar los datos del usuario en pantalla en funcion
-    de si esta o no seleccionado el 'checkbox'.
-    En el caso de los datos personales del usuario 'lee' los inputs
-    correspondientes, en el caso del avatar se llama a la funcion
-    'get_img_name'la cual formatea la url completa para obtener solo el
-    nombre de la imagen."""
-    # FORMATEAMOS LA URL DEL AVATAR PARA SOLO GUARDAR SU NOMBRE
-    avatar_url = window["-AVATAR URL-"].get()
-    avatar_name = new_functions.get_img_name(avatar_url,
-                                             initial_user["avatar"])
-    if not (avatar_name == "user_img.png"):
-        img = Image.open(avatar_url)
-        image = img.resize((1024, 1024))
-
-        # Crear una máscara de círculo
-        mask = Image.new("L", image.size, 0)
-        draw = ImageDraw.Draw(mask)
-        draw.ellipse((0, 0, image.size[0], image.size[1]), fill=255,
-                     outline="black")
-
-        # Aplicar la máscara a la imagen
-        rounded_image = Image.new("RGBA", image.size, 0)
-        rounded_image.paste(image, (0, 0), mask=mask)
-
-        # Guardar la imagen redondeada
-        avatar_name = f"{value['-NICK-'].lower().replace(' ', '')}.png"
-        new_path = os.path.join(PATH_IMAGE_AVATAR, avatar_name)
-        try:
-            rounded_image.save(new_path)
-        except ValueError:
-            pass
-
-    # ARMAMOS EN 'USUARIO' UN DICCIONARIO CON LOS VALORES INGRESADOS
-    # SEGUN SI ESTA O NO EL CHECKBOX
-    nick = value["-NICK-"].lower().replace(" ", "")
-    name = value["-NAME-"].lower().replace(" ", "")
-    age = value["-AGE-"].lower().replace(" ", "")
-    gender = value["-GENDER-"].lower()
-    gender_input = value["-GENDER INPUT-"].lower().replace(" ", "")
-
-    if not window["-CHECKBOX-"].get():
-        user = {
-            "nick": nick,
-            "name": name,
-            "age": age,
-            "gender": gender,
-            "avatar": avatar_name,
-        }
-    else:
-        user = {
-            "nick": nick,
-            "name": name,
-            "age": age,
-            "gender": gender_input,
-            "avatar": avatar_name,
-        }
-    return user
-
-
 # FUNCION PARA VALIDAR SI SE EDITARA O NO UN USUARIO EN EL ARCHIVO JSON
-def edit_user(window: object, value: dict, initial_user: dict) -> tuple[(dict,
-                                                                        bool)]:
+def edit_user(window: object, value: dict, initial_user: dict) -> tuple[(dict, bool)]:
     """Esta funcion recibe la 'window', y 'value'
     (diccionario con valores de los eventos)
     para luego editar el usuario existente en archivo 'usuarios.json'"""
-    user = read_inputs_edit(window, value, initial_user)
-
-    # VALIDACION Y EDIT DEL USUARIO
-    if new_functions.validate_user(user):
+    user = new_functions.read_inputs(window, value, initial_user)
+    if new_functions.valid_user(user, window):
         edit_json_user(user)
+        new_functions.create_user_img(window["-AVATAR URL-"].get(), user["nick"])
         return (user, True)
     else:
-        new_functions.validate_inputs(window)
         return (user, False)
 
 
-# FUNCION PARA VOLCAR EN PANTALLA LOS DATOS DEL USUARIO ACTIVO
-def get_active_user_data(window: object, nick: str):
-    """Esta funcion recibe la window, y el nick del usuario en sesion.
-    verifica y coloca en pantalla los datos del usuario
-    que tenemos en el archivo 'usuarios.json'"""
+# FUNCION PARA SABER SI EL CAMPO GENERO PERTENECE A LAS OPCIONES PREDETERMINADAS
+def chosen_gender(gender: str) -> bool:
+    """Esta funcion recibe el genero que tiene un usuario en el archivo
+    'usuarios.json' si es una de las opciones del elemento combo (masculino
+    , femenino, no binario) retornamos true, en cualquier otro caso
+    retornamos false"""
+    match (gender):
+        case "varon cis":
+            ok = True
+        case "varon trans":
+            ok = True
+        case "mujer cis":
+            ok = True
+        case "mujer trans":
+            ok = True
+        case "no binarie":
+            ok = True
+        case "otre":
+            ok = True
+        case _:
+            ok = False
+    return ok
 
-    def chosen_gender(gender: str) -> bool:
-        """Esta funcion recibe el genero que tiene un usuario en el archivo
-        'usuarios.json' si es una de las opciones del elemento combo (masculino
-        , femenino, no binario) retornamos true, en cualquier otro caso
-        retornamos false"""
-        if (gender == "masculino" or gender == "femenino" or gender == "no binario"):
-            return True
-        else:
-            return False
 
-    # BUSCO LOS DATOS DEL USUARIO EN EL JSON
-    user = new_functions.get_user(nick)
-
-    # ACA PONGO AUTOMATICAMENTE LOS DATOS DEL USUARIO A EDITAR EN LOS IMPUT
-    # DE LA PANTALLA EDITAR USUARIO
+# FUNCION PARA LLENAR LOS INPUTS CON LOS DATOS DEL USUARIO RECIBIDO COMO PARAMETRO
+def fill_inputs(window: object, user: dict) -> None:
+    """Esta funcion recibe la ventana, y el usuario:dict en sesion.
+    verifica y coloca en pantalla los datos del usuario'"""
     window["-NICK-"].update(user["nick"])
     window["-NAME-"].update(user["name"])
     window["-AGE-"].update(user["age"])
-    path_avatar = os.path.join(PATH_IMAGE_AVATAR, user["avatar"])
-    window["-AVATAR URL-"].update(path_avatar)
-    window["AVATAR"].update(source=path_avatar, subsample=4)
-    if chosen_gender(
-        user["gender"]
-    ):  # VERIFICAMOS EL GENERO, SI ES UNO DE LOS GENEROS DEL COMBO, DE SER
-        # ASI LO COLOCO EN EL MISMO
+    if chosen_gender(user["gender"]):
         window["-GENDER-"].update(user["gender"])
-    else:  # SINO TILDAMOS EL CHECKBOX, HACEMOS VISIBLE EL INPUT OPCIONAL
-        # Y VOLCAMOS LA INFO
+    else:
         window["-CHECKBOX-"](value=True)
         window["-GENDER INPUT-"](visible=True)
         window["-GENDER INPUT-"].update(user["gender"])
+        window["-GENDER-"].update(disabled=(not window["-GENDER-"].Disabled))
+    path_avatar = os.path.join(PATH_IMAGE_AVATAR, user["avatar"])
+    window["-AVATAR URL-"].update(path_avatar)
+    window["AVATAR"].update(source=path_avatar, subsample=4)

@@ -21,8 +21,8 @@ def run():
                     [
                         sg.Tab("Inicio", start, font=FONT_BODY),
                         sg.Tab(
-                            "Nuevo perfil // Editar Perfil", new_edit,
-                            font=FONT_BODY),
+                            "Nuevo perfil // Editar Perfil", new_edit, font=FONT_BODY
+                        ),
                         sg.Tab("Menu", menu, font=FONT_BODY),
                         sg.Tab("Editor Collage", collage, font=FONT_BODY),
                         sg.Tab("Editor Memes", meme, font=FONT_BODY),
@@ -32,9 +32,17 @@ def run():
                 ],
                 tab_location="centertop",
             )
-        ], [sg.Push(), sg.Image(source=PATH_BACK_ICO, subsample=2,
-                                enable_events=True, key="-RETURN-",
-                                pad=((0, 0), (0, 0)))]
+        ],
+        [
+            sg.Push(),
+            sg.Image(
+                source=PATH_BACK_ICO,
+                subsample=2,
+                enable_events=True,
+                key="-RETURN-",
+                pad=((0, 0), (0, 0)),
+            ),
+        ],
     ]
 
     window = sg.Window("Ayuda - Ventanas", tab_group, size=WINDOW_SIZE)

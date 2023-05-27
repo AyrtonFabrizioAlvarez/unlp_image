@@ -19,8 +19,7 @@ def error_window(text: str):
         [sg.Text(text, text_color="Red")],
         [sg.Button("OK", button_color="Red", size=(6, 1))],
     ]
-    window = sg.Window("ERROR", error_layout, finalize=True,
-                       element_justification="c")
+    window = sg.Window("ERROR", error_layout, finalize=True, element_justification="c")
     while True:
         event, values = window.read()
         if event == sg.WIN_CLOSED or event == "OK":
@@ -55,7 +54,8 @@ def edit_img_csv(data: dict):
         )
     else:
         with open(
-            os.path.join(PATH_CSV, "metadata.csv"),"w", newline="", encoding="utf-8") as file:
+            os.path.join(PATH_CSV, "metadata.csv"), "w", newline="", encoding="utf-8"
+        ) as file:
             writer = csv.writer(file)
             found = False
             for line in csv_info:
@@ -73,8 +73,10 @@ def edit_img_csv(data: dict):
                         ]
                     )
                     found = True
-                    Log.write_log("""Modificación a imagen previamente
-                                  clasificada""")
+                    Log.write_log(
+                        """Modificación a imagen previamente
+                                  clasificada"""
+                    )
                 else:
                     writer.writerow(line)
             if not found:
@@ -178,8 +180,7 @@ def update_csv(values: dict, images_directories: str, current_user: str):
             "resolution": image.size,
             "format": image.format,
             "last_update": time.strftime(
-                "%Y-%m-%d %H:%M:%S", time.localtime(
-                    os.path.getmtime(image_path))
+                "%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(image_path))
             ),
             "tags": values["-LABELS-"].replace(",", ";"),
             "size_mb": round((os.path.getsize(image_path) / 1024) / 1024, 3),

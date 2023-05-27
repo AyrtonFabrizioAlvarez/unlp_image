@@ -26,13 +26,11 @@ class Log:
         de la aplicación.
         """
         try:
-            tags = open(os.path.join(PATH_CSV, "logs.csv"),
-                        "r", encoding="utf-8")
+            tags = open(os.path.join(PATH_CSV, "logs.csv"), "r", encoding="utf-8")
             tags.close()
         except FileNotFoundError:
             try:
-                with open(os.path.join(PATH_CSV, "logs.csv"),
-                          "w", newline="") as file:
+                with open(os.path.join(PATH_CSV, "logs.csv"), "w", newline="") as file:
                     writer = csv.writer(file)
                     writer.writerow(["date", "nick", "operation"])
             except Exception as e:
@@ -48,13 +46,11 @@ class Log:
         """
         try:
             with open(
-                os.path.join(PATH_CSV, "logs.csv"), "a", newline="",
-                encoding="utf-8"
+                os.path.join(PATH_CSV, "logs.csv"), "a", newline="", encoding="utf-8"
             ) as file:
                 timestamp = datetime.timestamp(datetime.now())
                 date = datetime.fromtimestamp(timestamp)
-                log = [date.strftime("%m/%d/%Y, %H:%M:%S"),
-                       cls.nick, operation]
+                log = [date.strftime("%m/%d/%Y, %H:%M:%S"), cls.nick, operation]
                 writer_obj = csv.writer(file)
                 writer_obj.writerow(log)
         except Exception as e:

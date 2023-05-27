@@ -47,8 +47,7 @@ def open_record():
             directories = open(PATH_JSON, "w")
             directories.write(
                 json.dumps(
-                    {clave: valor for clave, valor in dict_paths.items()},
-                    indent=4
+                    {clave: valor for clave, valor in dict_paths.items()}, indent=4
                 )
             )
             directories.close()
@@ -78,8 +77,7 @@ def try_open_csv(header: list[str], file_name="metadata.csv"):
         tags.close()
     except FileNotFoundError:
         try:
-            with open(os.path.join(PATH_CSV, file_name),
-                      "w", newline="") as file:
+            with open(os.path.join(PATH_CSV, file_name), "w", newline="") as file:
                 writer = csv.writer(file)
                 writer.writerow(header)
         except MemoryError:

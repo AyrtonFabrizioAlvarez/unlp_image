@@ -69,8 +69,7 @@ def run():
             sg.FolderBrowse(),
         ],
         [
-            sg.Button("Guardar", key="-SAVEDIRECTORY-",
-                      pad=((0, 10), (125, 0))),
+            sg.Button("Guardar", key="-SAVEDIRECTORY-", pad=((0, 10), (125, 0))),
             sg.Button("Resetear", key="-RESET-", pad=((0, 10), (125, 0))),
         ],
     ]

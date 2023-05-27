@@ -11,6 +11,7 @@ from UNLPimage.src.labelling.labelling_functions import (
 )
 from UNLPimage.src.functions.files_functions import try_open_csv, open_record
 
+
 def run(current_user: str):
     """
     Conseguimos el camino a la carpeta de imagenes, y filtramos
@@ -49,8 +50,7 @@ def run(current_user: str):
             sg.Text("Etiquetar imagenes", font=FONT_TITLE),
             sg.P(),
             sg.Image(
-                source=PATH_BACK_ICO, subsample=2, key="-BACK-",
-                enable_events=True
+                source=PATH_BACK_ICO, subsample=2, key="-BACK-", enable_events=True
             ),
         ],
         [
@@ -61,29 +61,24 @@ def run(current_user: str):
     elements_column_1 = [
         [
             sg.Listbox(
-                values=img_names, size=(40, 25), key="-FILELIST-",
-                enable_events=True
+                values=img_names, size=(40, 25), key="-FILELIST-", enable_events=True
             )
         ],
     ]
     elements_column_2 = [
         [sg.Image(key="-IMAGE-", size=(400, 400))],
         [sg.T(key="-IMGNAME-"), sg.T(key="-IMGSIZE-"), sg.T(key="-IMGMB-")],
-        [sg.P(), sg.Text("Modificar tags (separe por comas):"),
-         sg.I(key="-LABELS-")],
-        [sg.P(), sg.Text("Modificar descripccion:"),
-         sg.I(key="-DESCRIPTION-")],
+        [sg.P(), sg.Text("Modificar tags (separe por comas):"), sg.I(key="-LABELS-")],
+        [sg.P(), sg.Text("Modificar descripccion:"), sg.I(key="-DESCRIPTION-")],
         [sg.B("Guardar cambios", key="-SAVE-")],
     ]
 
     layout = [
         elements_row_1,
         [
-            sg.Column(elements_column_1, element_justification="left",
-                      pad=(100, 10)),
+            sg.Column(elements_column_1, element_justification="left", pad=(100, 10)),
             sg.P(),
-            sg.Column(elements_column_2, element_justification="right",
-                      pad=(100, 10)),
+            sg.Column(elements_column_2, element_justification="right", pad=(100, 10)),
         ],
     ]
 
@@ -107,7 +102,7 @@ def run(current_user: str):
             try:
                 show_image(values["-FILELIST-"][0], images_directories, window)
             except IndexError:
-                sg.popup_error('No hay ninguna imagen en este directorio para mostrar.')
+                sg.popup_error("No hay ninguna imagen en este directorio para mostrar.")
         if event == "-SAVE-":
             confirm = sg.popup_yes_no("¿Confirma guardar los datos?")
             if confirm == "Yes":

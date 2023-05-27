@@ -8,8 +8,7 @@ layout = [
     [sg.T("Seleccione un color de tema para previsualizarlo")],
     [
         sg.Listbox(
-            values=sg.theme_list(), size=(20, 20), key=("-LIST-"),
-            enable_events=True
+            values=sg.theme_list(), size=(20, 20), key=("-LIST-"), enable_events=True
         )
     ],
     [sg.B("-EXIT-")],

@@ -23,8 +23,7 @@ def menu(dicci: dict):
     layout = [
         [
             sg.Image(
-                source=PATH_BACK_ICO, subsample=2, key="-BACK-",
-                enable_events=True
+                source=PATH_BACK_ICO, subsample=2, key="-BACK-", enable_events=True
             ),
             sg.Image(
                 source=PATH_PFP_ICO,
@@ -40,8 +39,7 @@ def menu(dicci: dict):
                 enable_events=True,
             ),
             sg.Image(
-                source=PATH_HELP_ICO, subsample=2, key="-HELP-",
-                enable_events=True
+                source=PATH_HELP_ICO, subsample=2, key="-HELP-", enable_events=True
             ),
         ],
         [sg.Image(key="-PFP-")],
@@ -59,14 +57,12 @@ def menu(dicci: dict):
                 pad=((3, 3), (30, 3)),
             ),
             sg.Button(
-                "Generar meme", key="-MEME-", size=(25, 2),
-                pad=((3, 3), (30, 3))
+                "Generar meme", key="-MEME-", size=(25, 2), pad=((3, 3), (30, 3))
             ),
         ],
         [
             sg.Button(
-                "Generar collage", size=(25, 2), key="-COLLAGE-",
-                pad=((3, 3), (3, 3))
+                "Generar collage", size=(25, 2), key="-COLLAGE-", pad=((3, 3), (3, 3))
             ),
             sg.Exit("Salir", key="-EXIT-", size=(25, 2), pad=((3, 3), (3, 3))),
         ],
@@ -112,7 +108,7 @@ def run(dicci):
                 menu_window.un_hide()
             case "-EDIT_PROFILE-":
                 menu_window.Hide()
-                dicci = window_edit_profile.run(dicci["nick"])
+                dicci = window_edit_profile.run(dicci)
                 Log.nick = dicci["nick"]
                 menu_window.un_hide()
             case "-MEME-":
