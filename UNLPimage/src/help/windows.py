@@ -3,7 +3,7 @@ from UNLPimage.common.const import FONT_BODY, WINDOW_SIZE, THEME
 from UNLPimage.common.path import PATH_BACK_ICO
 
 
-def run():
+def run() -> sg.Window:
     """Genera la ventana de ayuda. La ventana esta implementada con pestanas
     donde se detalla informacion de funciones de botones de cada ventana"""
     start = [[sg.T(start_txt)]]
@@ -26,7 +26,7 @@ def run():
                         sg.Tab("Menu", menu, font=FONT_BODY),
                         sg.Tab("Editor Collage", collage, font=FONT_BODY),
                         sg.Tab("Editor Memes", meme, font=FONT_BODY),
-                        sg.Tab("Etiquetar de imagenes", label, font=FONT_BODY),
+                        sg.Tab("Etiquetado", label, font=FONT_BODY),
                         sg.Tab("Configuracion", setting, font=FONT_BODY),
                     ]
                 ],
@@ -103,9 +103,27 @@ menu_txt = """
             -Salida: Boton que al ser presionado cerrara la ventana,
                 posterior a la confirmacion de la accion.
     """
-collage_txt = """ Aun no tenemos claro la funcion de la ventana.
+collage_txt = """ 
+        En la pestaña de "seleccion de diseño de collage" podremos elegir 
+        entre las diferentes composiciones de collage. 
+        Luego de seleccionar un diseño entraremos a la ventana "Generar Collage" 
+        en la que podremos crear un imagen personalizada, seleccionando fotos 
+        y nombrando a la misma con un titulo. Una vez terminado
+        el diseño podremos guardar la imagen en los formatos .JPG y .PNG.
     """
-meme_txt = """ Aun no tenemos claro la funcion de la ventana.
+meme_txt = """ 
+        En la pestaña de memes se presenta una lista con los templates
+        que se pueden seleccionar para las determinadas imagenes, una
+        vez seleccionada una de estas, se mostrara una previsualizacion 
+        de la misma y se podra utilizar el boton de editar que lleva 
+        a la siguiente pestaña.
+        En esta pestaña se podra seleccionar la fuente de una lista de las
+        mismas y se presentaran cubos de texto en los que podra ingresar
+        lo que quiera que aparezca en la imagen, una vez que este satisfecho
+        con los textos a escribir podra usar el boton actualizar para mostrar
+        los textos en la imagen y ver como es el resultado. Finalmente podra
+        guardar el meme, para el que tendra que ponerle un titulo y guardarlo
+        como PNG o JPG.
     """
 label_txt = """
         La pestaña de etiquetado provee la funcionalidad para ver, revisar y

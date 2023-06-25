@@ -1,3 +1,86 @@
-date,nick,operation
-"05/27/2023, 18:46:04",zxzx,Dio de alta su usuario
-"05/27/2023, 18:46:19",zxzx,Edito su usuario
+date,nick,operation,values,text
+1686782397.183354,elnicky,Dio de alta su usuario,,
+1676782483.668743,elnicky,generó meme,monito.png,mono (1 text box)
+1686782583.674113,elnicky,generó meme,dragones.png,dragones (3 text boxes)
+1686782669.413385,elnicky,generó meme,pibe_campera.png,Persona con campera (2 text boxes)
+1686782964.853391,elnicky,generó meme,cerebrones.png,cerebros (4 text boxes)
+1686782999.229165,elnicky,Edito su usuario,,
+1676783004.762476,elnicky,Edito su usuario,,
+1686783025.465135,elnicky,Edito su usuario,,
+1686783053.138038,perca,Dio de alta su usuario,,
+1686783099.045206,perca,Nueva imagen clasificada,,
+1686783153.523476,perca,Nueva imagen clasificada,,
+1686783194.977174,perca,Nueva imagen clasificada,,
+1676783227.710853,perca,Nueva imagen clasificada,,
+1686783252.506881,perca,Edito su usuario,,
+1686783270.854273,perca,generó collage,"['atardecer.jpg', 'escondida.jpg']",collage1
+1686783316.075052,massa,Dio de alta su usuario,,
+1676783333.376964,massa,Edito su usuario,,
+1686783358.297603,massa,Modificación de la configuración,,
+1686783393.62013,massa,Modificación de la configuración,,
+1686783429.313011,massa,generó collage,"['escondida.jpg', 'atardecer.jpg']",safdasfdasfaf
+1646783469.333412,alva,Dio de alta su usuario,,
+1686783482.841823,alva,Edito su usuario,,
+1686783531.335891,alva,Nueva imagen clasificada,,
+1686783566.198528,alva,Nueva imagen clasificada,,
+1666783614.924964,alva,Nueva imagen clasificada,,
+1686783650.058428,alva,generó collage,"['atardecer.jpg', '-stitch-elvis.png', 'atardecer.jpg', 'escondida.jpg', 'velero.jpg', 'pikachu.png']",unpocodetooo
+1686783713.031369,tomas,Dio de alta su usuario,,
+1696783742.512276,tomas,Edito su usuario,,
+1686783750.2073,tomas,Edito su usuario,,
+1666783756.591449,tomas,Modificación de la configuración,,
+1686783782.772755,tomas,Modificación de la configuración,,
+1646783823.815379,tomas,Modificación de la configuración,,
+1686783886.43417,tomas,generó meme,botoncitos.png,botones y persona (3 text boxes)
+1656783941.193327,tomas,generó collage,"['atardecer.jpg', 'velero.jpg']",playitaaaa
+1686784016.264853,tomas,Nueva imagen clasificada,,
+1686784061.417391,tomas,Nueva imagen clasificada,,
+1686784099.990927,tomas,Nueva imagen clasificada,,
+1666784117.877325,tomas,Nueva imagen clasificada,,
+1686784135.19943,tomas,Nueva imagen clasificada,,
+1686784156.161133,tomas,Modificación a imagen previamente clasificada,,
+1684784177.120403,tomas,Edito su usuario,,
+1683784182.97662,tomas,Edito su usuario,,
+1686784188.604846,tomas,Edito su usuario,,
+1686784194.515094,tomas,Edito su usuario,,
+1685784200.143602,tomas,Edito su usuario,,
+1686784216.286945,tomas,Edito su usuario,,
+1687784246.591827,alva,Edito su usuario,,
+1686784252.196262,alva,Edito su usuario,,
+1681784257.812907,alva,Edito su usuario,,
+1686784291.557734,mariposa,Dio de alta su usuario,,
+1686784309.73506,mariposa,generó collage,"['escondida.jpg', 'atardecer.jpg']",default
+1686959096.235793,massa,Modificación a imagen previamente clasificada,,
+1686959096.23679,massa,Modificación a imagen previamente clasificada,,
+1686959122.713596,massa,Modificación a imagen previamente clasificada,,
+1686965104.728994,tomas,Edito su usuario,,
+1686965268.382981,tomas,Edito su usuario,,
+1686965285.055005,tomas,Edito su usuario,,
+1686966100.056319,mariposa,Modificación de la configuración,,
+1686966141.585184,mariposa,Modificación de la configuración,,
+1686969031.901986,tomas,Edito su usuario,,
+1686969041.235788,tomas,Edito su usuario,,
+1686969310.865479,tomas,Edito su usuario,,
+1686969317.687876,tomas,Edito su usuario,,
+1686970448.074806,tomas,Nueva imagen clasificada,,
+1686970480.162322,tomas,generó collage,"['pikachu.png', '-stitch-elvis.png']",animales
+1686970513.080966,tomas,generó meme,botoncitos.png,botones y persona (3 text boxes)
+1686970593.289505,tomas,generó meme,monito.png,mono (1 text box)
+1687017064.971914,tomas,Edito su usuario,,
+1687017092.725977,tomas,Edito su usuario,,
+1687017139.205152,tomas,Modificación a imagen previamente clasificada,,
+1687017139.205152,tomas,Modificación a imagen previamente clasificada,,
+1687017144.863401,tomas,Modificación a imagen previamente clasificada,,
+1687017144.864411,tomas,Modificación a imagen previamente clasificada,,
+1687017170.615177,tomas,generó collage,"['atardecer.jpg', 'caminos.jpg']",collagePruebaFinal
+1687017225.826764,tomas,generó meme,monito.png,mono (1 text box)
+1687017267.720646,tomas,Modificación de la configuración,,
+1687017283.721385,tomas,Modificación de la configuración,,
+1687489058.237032,massa,Edito su usuario,,
+1687521381.343218,pepito,Dio de alta su usuario,,
+1687526332.382365,mariposa,generó meme,botoncitos.png,botones y persona (3 text boxes)
+1687526370.20911,mariposa,Modificación de la configuración,,
+1687526521.665342,mariposa,Modificación de la configuración,,
+1687526660.23047,mariposa,generó collage,"['-stitch-elvis.png', 'atardecer.jpg', 'caminos.jpg']",prueba de collage
+1687526779.814258,mariposa,generó collage,"['atardecer.jpg', 'pikachu.png']",default
+1687526826.930215,mariposa,generó collage,"['atardecer.jpg', 'caminos.jpg', '-stitch-elvis.png', 'caminos.jpg']",pruebaconstichyelcamino

@@ -32,25 +32,34 @@ class Log:
             try:
                 with open(os.path.join(PATH_CSV, "logs.csv"), "w", newline="") as file:
                     writer = csv.writer(file)
-                    writer.writerow(["date", "nick", "operation"])
+                    writer.writerow(["date", "nick", "operation", "values", "text"])
             except Exception as e:
                 print(f"No se pudo crear el archivo de logs | {e}")
 
     @classmethod
-    def write_log(cls, operation: str):
-        """
-        Este metodo de clase intenta abrir el archivo de logs en
+    def write_log(cls, operation: str, values="", text=""):
+        """Este metodo de clase intenta abrir el archivo de logs en
         modo append para guardar una acción realizada por el usuario.
         Si hay un excepción es manejada internamente, pero no para el programa.
-        @param operation: esta es la operación realizada por el usuario.
-        """
+
+        Args:
+            operation (str): Esta es la operación realizada por el usuario.
+            values (str, optional): Imagenes usadas en el collage o memes. Defaults to "".
+            text (str, optional): Nombre que le queda al collage, o que template
+            de meme se usó. Defaults to "".
+        """        
         try:
             with open(
                 os.path.join(PATH_CSV, "logs.csv"), "a", newline="", encoding="utf-8"
             ) as file:
                 timestamp = datetime.timestamp(datetime.now())
-                date = datetime.fromtimestamp(timestamp)
-                log = [date.strftime("%m/%d/%Y, %H:%M:%S"), cls.nick, operation]
+                log = [
+                    timestamp,
+                    cls.nick,
+                    operation,
+                    values,
+                    text,
+                ]
                 writer_obj = csv.writer(file)
                 writer_obj.writerow(log)
         except Exception as e:

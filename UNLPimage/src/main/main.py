@@ -3,7 +3,7 @@ from UNLPimage.common.const import FONT_BODY, WINDOW_SIZE, THEME
 from UNLPimage.common.path import PATH_HELP_ICO
 from UNLPimage.common.path import PATH_SETTINGS_ICO, PATH_PFP_ICO
 from UNLPimage.common.path import PATH_BACK_ICO
-import UNLPimage.src.collage.collage as window_collage
+import UNLPimage.src.collage.collage_patterns as window_collage
 import UNLPimage.src.help.help as window_help
 import UNLPimage.src.meme.meme as window_meme_generator
 import UNLPimage.src.edit_profile.edit_profile as window_edit_profile
@@ -13,10 +13,16 @@ from UNLPimage.src.main.main_functions import load
 from UNLPimage.src.classes.log import Log
 
 
-def menu(dicci: dict):
-    """ "Genera el menu principal de la  app
-    @param dicci: Diccionario que contiene la info de usuario,
-    usado para mostrar su info"""
+def menu(dicci: dict) -> sg.Window:
+    """Genera el menu principal de la  app
+
+    Args:
+        dicci (dict): Diccionario que contiene la info de usuario,
+    usado para mostrar su info
+
+    Returns:
+        _layout_: retorna la ventana menu
+    """
     name = dicci["nick"]
     sg.set_options(font=FONT_BODY)
     sg.theme(THEME)
@@ -79,7 +85,9 @@ def menu(dicci: dict):
 
 def run(dicci):
     """Funcion que inicia el menu de la app.
-    @param dicci: recibe diccionario con info de usuario usado para
+
+    Args:
+        dicci (_type_): recibe diccionario con info de usuario usado para
     mostrar su info, y enviarsla a editar usuario.
     """
     Log.nick = dicci["nick"]

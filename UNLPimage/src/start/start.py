@@ -15,10 +15,7 @@ def run():
     haya mas de 4 se puedue usar el boton (ver mas) para
     cambiar los perfiles que se presentan inicialmente"""
     users = read_users()
-    try:
-        qty_users = len(users) - 1
-    except TypeError:
-        qty_users = -1
+    qty_users = len(users) - 1
     counter = qty_users
 
     window = start()
@@ -38,31 +35,14 @@ def run():
                 window.Hide()
                 new_profile_window.run()
                 users = read_users()
-                try:
-                    qty_users = len(users) - 1
-                    counter = qty_users
-                    counter, profiles = button_imgs(qty_users, counter, window, users)
-                except TypeError:
-                    pass
+                qty_users = len(users) - 1
+                counter = qty_users
+                counter, profiles = button_imgs(qty_users, counter, window, users)
                 window.UnHide()
-            case "-PROFILE_0-":
+            case _:
                 window.Hide()
-                main_window.run(profiles[0])
-                profiles = profile_modifications(profiles, window, 0)
-                window.UnHide()
-            case "-PROFILE_1-":
-                window.Hide()
-                main_window.run(profiles[1])
-                profiles = profile_modifications(profiles, window, 1)
-                window.UnHide()
-            case "-PROFILE_2-":
-                window.Hide()
-                main_window.run(profiles[2])
-                profiles = profile_modifications(profiles, window, 2)
-                window.UnHide()
-            case "-PROFILE_3-":
-                window.Hide()
-                main_window.run(profiles[3])
-                profiles = profile_modifications(profiles, window, 3)
+                profile_number = int(event[-2])
+                main_window.run(profiles[profile_number])
+                profiles = profile_modifications(profiles, window, profile_number)
                 window.UnHide()
     window.close()

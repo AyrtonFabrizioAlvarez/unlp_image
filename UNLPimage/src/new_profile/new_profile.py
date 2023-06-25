@@ -177,7 +177,8 @@ def run():
                         sg.popup("Verifique los datos ingresados")
             case "-AVATAR URL-":
                 img_url = window["-AVATAR URL-"].get()
-                window["AVATAR"].update(img_url, subsample=4)
                 new_functions.create_user_img(img_url, "temporary_img")
+                temporary_img_url = os.path.join(PATH_IMAGE_AVATAR, "temporary_img.png")
+                window["AVATAR"].update(temporary_img_url, subsample=4)
 
     window.close()

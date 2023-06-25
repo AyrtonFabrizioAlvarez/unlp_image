@@ -17,7 +17,6 @@ def run():
     Cuando el usuario clickea el folderbrowse y elije un camino este se pone
     en el input, luego si se apreta
     el boton de guardar la nueva informacion se guarda en el json.
-    @return: None
     """
     paths_dict = open_record()
     sg.set_options(font=FONT_BODY)
@@ -84,20 +83,21 @@ def run():
 
     while True:
         event, values = window.read()
-        if event == "-EXIT-" or event == sg.WIN_CLOSE_ATTEMPTED_EVENT:
-            confirm = sg.popup_yes_no("¿Está seguro que desea salir?")
-            if confirm == "Yes":
-                exit()
-        if event == "-BACK-":
-            break
-        if event == "-SAVEDIRECTORY-":
-            answer = sg.popup_yes_no("¿Confirma los cambios?")
-            if answer == "Yes":
-                fran.save_config(values)
-                Log.write_log("Modificación de la configuración")
+        match event:
+            case "-EXIT-" | sg.WIN_CLOSE_ATTEMPTED_EVENT:
+                confirm = sg.popup_yes_no("¿Está seguro que desea salir?")
+                if confirm == "Yes":
+                    exit()
+            case "-BACK-":
                 break
-        if event == "-RESET-":
-            answer = sg.popup_yes_no("¿Confirma el reseteo?")
-            if answer == "Yes":
-                fran.reset(paths_dict, window)
+            case "-SAVEDIRECTORY-":
+                answer = sg.popup_yes_no("¿Confirma los cambios?")
+                if answer == "Yes":
+                    fran.save_config(values)
+                    Log.write_log("Modificación de la configuración")
+                    break
+            case "-RESET-":
+                answer = sg.popup_yes_no("¿Confirma el reseteo?")
+                if answer == "Yes":
+                    fran.reset(paths_dict, window)
     window.close()

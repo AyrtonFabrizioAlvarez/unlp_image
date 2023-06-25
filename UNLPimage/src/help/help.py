@@ -6,7 +6,7 @@ from UNLPimage.common.const import WINDOW_SMALL_SIZE, FONT_BODY
 from UNLPimage.common.path import PATH_BACK_ICO
 
 
-def help():
+def help() -> sg.Window:
     """ "Genera la ventana de menu  sobre ayudas en la app"""
     layout = [
         [sg.T("AYUDA", font=FONT_BODY), sg.Push()],
@@ -35,6 +35,7 @@ def help():
 
 
 def run():
+    """Funcion que capta los eventos de la ventana HELP"""
     help_window = help()
     while True:
         event, values = help_window.read()

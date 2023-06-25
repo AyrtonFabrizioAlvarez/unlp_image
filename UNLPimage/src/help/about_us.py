@@ -3,8 +3,8 @@ from UNLPimage.common.const import WINDOW_ABOUT_US_SIZE, FONT_BODY, FONT_TITLE
 from UNLPimage.common.path import PATH_BACK_ICO
 
 
-def help():
-    """Genera ventana de Quienes somos."""
+def help() -> sg.Window:
+    """Genera layout de la ventana de Quienes somos."""
     text = """
             Somos estudiantes y amigos de diversas carreras de la Facultad de
             Infomatica de la UNLP quienes generamos este trabajo a partir del
@@ -16,10 +16,10 @@ def help():
             que agradecemos su tiempo, y esfuerzo dedicados a darnos
             herramientas que podremos utilizar en el futuro.
             Muchas gracias:
-                Percara Francisco - Lic. en Informatica
-                Bruschi Tomas - Lic. en Informatica
-                Alvarez Ayrton - Analista programador Universitario
-                Massera Felipe - ATIC
+                Percara Francisco - est Lic. en Informatica
+                Bruschi Tomas - est Lic. en Informatica
+                Alvarez Ayrton - est Analista programador Universitario
+                Massera Felipe - est ATIC
         """
     layout = [
         [sg.T("Quienen somos...", font=FONT_TITLE), sg.Push()],
@@ -46,6 +46,7 @@ def help():
 
 
 def run():
+    """Funcion que capta los eventos de la ventana de Quienes somos."""
     help_window = help()
     while True:
         event, values = help_window.read()

@@ -1,19 +1,21 @@
 import csv
 import os
-import time
+from datetime import datetime
 import PySimpleGUI as sg
 from PIL import Image, ImageTk, UnidentifiedImageError
 from UNLPimage.common.path import PATH_CSV
 from UNLPimage.src.classes.log import Log
+from UNLPimage.src.functions.files_functions import open_csv_list
+from UNLPimage.src.functions.files_functions import open_csv
 
 
 def error_window(text: str):
-    """
-    Crea una ventana aparte la cual te muestra un texto de error,
+    """    Crea una ventana aparte la cual te muestra un texto de error,
     se usa en vez de un popup porque permite más customizacion.
-    @param text: Un string que contiene el mensaje de error
+
+    Args:
+        text (str): Un string que contiene el mensaje de error
     que queremos mostrar.
-    @return None
     """
     error_layout = [
         [sg.Text(text, text_color="Red")],
@@ -28,29 +30,20 @@ def error_window(text: str):
 
 
 def edit_img_csv(data: dict):
-    """
-    Recibe la informacion a escribir en el csv,
+    """    Recibe la informacion a escribir en el csv,
     abrimos el csv (que sabemos que existe porque se creo al
     entrar en la pantalla),
-    @param data: Un diccionario que contiene la información
+
+    Args:
+        data (dict): Un diccionario que contiene la información
     a escribir en el csv.
-    @return: None
     """
     try:
-        with open(
-            os.path.join(PATH_CSV, "metadata.csv"), "r", encoding="utf-8"
-        ) as file:
-            reader = csv.reader(file)
-            csv_info = list(reader)
+        csv_info = open_csv_list("metadata.csv")
     except FileNotFoundError:
         sg.popup_error(
-            """El archivo de metadata no se pudo crear con anterioridad,
+            """El archivo de metadata no se pudo crear con anterioridad, 
             no podemos guardar los datos."""
-        )
-    except UnicodeDecodeError:
-        sg.popup(
-            """"Error de decodificación, no podes decodificar el archivo para
-              guardar los datos"""
         )
     else:
         with open(
@@ -73,10 +66,7 @@ def edit_img_csv(data: dict):
                         ]
                     )
                     found = True
-                    Log.write_log(
-                        """Modificación a imagen previamente
-                                  clasificada"""
-                    )
+                    Log.write_log("Modificación a imagen previamente clasificada")
                 else:
                     writer.writerow(line)
             if not found:
@@ -96,18 +86,18 @@ def edit_img_csv(data: dict):
 
 
 def show_image(name: str, images_directories: str, window: object):
-    """
-    Esta se producira cada vez que se clickee una imagen en el
+    """Esta se producira cada vez que se clickee una imagen en el
     filelist, entonces tomamos su nombre,
     la unimos con el camino hacia el respositorio de imagenes elegido
     y con ello la abrimos y actualizamos el objeto
     imagen, además mostramos los metadatos.
-    @param name: nombre del archivo.
-    @param images_directories: un string con el camino al
-    repositorio de imagenes.
-    @param window: La ventana actual.
-    @return: None
-    """
+
+    Args:
+        name (str): nombre del archivo.
+        images_directories (str): un string con el camino al
+        repositorio de imagenes.
+        window (object): La ventana actual.
+    """    """"""
     image_path = os.path.abspath(os.path.join(images_directories, name))
     try:
         img = Image.open(image_path)
@@ -120,20 +110,12 @@ def show_image(name: str, images_directories: str, window: object):
         resized_image = img.resize((400, 400))
         img_tk = ImageTk.PhotoImage(resized_image)
         try:
-            with open(
-                os.path.join(PATH_CSV, "metadata.csv"), "r", encoding="utf-8"
-            ) as file:
-                reader = csv.DictReader(file)
-                csv_info = list(reader)
+            # csv_info = open_csv_list("metadata.csv")
+            csv_info = open_csv("metadata.csv")
         except FileNotFoundError:
             sg.popup_error(
                 """No se pudo crear el archivo de metadata, no podemos mostrar
                 los datos."""
-            )
-        except UnicodeDecodeError:
-            sg.popup_error(
-                """Excepción de decodificación unicode, no podemos mostrar
-                los datos"""
             )
         else:
             found = False
@@ -142,10 +124,10 @@ def show_image(name: str, images_directories: str, window: object):
                     window["-LABELS-"].update(line["tags"].replace(";", ","))
                     window["-DESCRIPTION-"].update(line["description"])
                     found = True
-            window["-IMGNAME-"].update(f"Name: {name}")
-            window["-IMGSIZE-"].update(f"Dimensions: {img.size} px")
+            window["-IMGNAME-"].update(f"Nombre: {name}")
+            window["-IMGSIZE-"].update(f"Dimensiones: {img.size} px")
             window["-IMGMB-"].update(
-                f"Size: {round((os.path.getsize(image_path) / 1024) / 1024, 3)} mb"
+                f"Tamaño: {round((os.path.getsize(image_path) / 1024) / 1024, 3)} mb"
             )
             if not found:
                 window["-LABELS-"].update("")
@@ -154,16 +136,15 @@ def show_image(name: str, images_directories: str, window: object):
 
 
 def update_csv(values: dict, images_directories: str, current_user: str):
-    """
-    Recibe la imagen seleccionada, las tags y la descripccion, en base a
+    """Recibe la imagen seleccionada, las tags y la descripccion, en base a
     la imagen consige sus metadatos y los pone en
     un diccionario, despues llama edit_img_csv data para manejar la escritura.
-    @param values: Diccionario con los valores necesarios para actualziar
-    el csv
-    @param images_directories: Directorio de las imagenes
-    @param current_user: El usuario que hizo el cambio.
-    @return: None
-    """
+
+    Args:
+        values (dict):  Diccionario con todos los datos de al ventana.
+        images_directories (str):  Directorio de las imagenes.
+        current_user (str):  El usuario que hizo el cambio.
+    """    
     try:
         image_path = os.path.abspath(
             os.path.join(images_directories, values["-FILELIST-"][0])
@@ -176,12 +157,10 @@ def update_csv(values: dict, images_directories: str, current_user: str):
     else:
         data = {
             "current_user": current_user,
-            "relative_path": os.path.relpath(image_path, os.getcwd()),
+            "relative_path": os.path.relpath(image_path, os.getcwd()).replace('\\', '/'),
             "resolution": image.size,
             "format": image.format,
-            "last_update": time.strftime(
-                "%Y-%m-%d %H:%M:%S", time.localtime(os.path.getmtime(image_path))
-            ),
+            "last_update": datetime.timestamp(datetime.now()),
             "tags": values["-LABELS-"].replace(",", ";"),
             "size_mb": round((os.path.getsize(image_path) / 1024) / 1024, 3),
             "description": values["-DESCRIPTION-"],

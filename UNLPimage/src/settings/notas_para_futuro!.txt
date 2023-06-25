@@ -1,6 +1,0 @@
-fran se podra incorporar a setting la eleccion de los temas ? 
-
-hacer tambien lo de confirmar los cambios.(popout) con los casos:
--si, guarda y vuelve
--no, se queda en la pantalla
--x, vuelve atras en la pantalla

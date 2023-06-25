@@ -3,8 +3,12 @@ from UNLPimage.common.const import WINDOW_ABOUT_US_SIZE, FONT_BODY, FONT_TITLE
 from UNLPimage.common.path import PATH_BACK_ICO
 
 
-def help():
-    """Genera la ventana acerca de como se usa la app ULPimage"""
+def help() -> sg.Window:
+    """Genera la ventana acerca de como se usa la app ULPimage
+
+    Returns:
+        Layout : retorna la ventana creada
+    """
     text = """
     Al iniciar el programa UNLPimage estaras en la ventana de inicio de
     la aplicacion, en ella podras crear un nuevo usuario o elegir uno
@@ -18,8 +22,11 @@ def help():
     la aplicación para busqueda y almacenamiento de nuestras imagenes.
     En la ventana "Etiquetar imágenes" podras realizar diferentes etiquetados
     y cambios en la descripción de las imágenes, así como ver sus datos.
-    Tanto la ventana de "Generar meme" y "Generar collage" ,aun no tienen
-    funcionalidad.
+    En la ventana "Generar meme", a partir de plantillas pre seleccionadas
+    podremos generar un nuevo meme colocando un texto ingresado por el usuario
+    En la ventana "Generar collage", podremos seleccionar imagenes previamente 
+    etiquetadas para poder confeccionar un collage de las mismas, en base
+    a plantillas pre establecidas.
     """
 
     layout = [
@@ -47,6 +54,7 @@ def help():
 
 
 def run():
+    """funcion que capta los eventos de como se usa."""
     help_window = help()
     while True:
         event, values = help_window.read()

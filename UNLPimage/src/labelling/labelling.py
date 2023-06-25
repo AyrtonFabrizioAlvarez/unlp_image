@@ -13,15 +13,15 @@ from UNLPimage.src.functions.files_functions import try_open_csv, open_record
 
 
 def run(current_user: str):
-    """
-    Conseguimos el camino a la carpeta de imagenes, y filtramos
+    """Conseguimos el camino a la carpeta de imagenes, y filtramos
     de todos los archivos encontrados dentro para solo dejar
     los nombres de los archivos imagenes en un lista, que luego
-    mostramos en el listbox
-    @param current_user: Un string con el alias del usuario actual
-                        que entro al etiquetado.
-    @return: None
-    """
+    mostramos en el listbox.
+
+    Args:
+        current_user (str): Un string con el alias del usuario actual 
+        que entro al etiquetado.
+    """    
     sg.set_options(font=FONT_BODY)
     sg.theme(THEME)
     try_open_csv(
@@ -85,26 +85,37 @@ def run(current_user: str):
     window = sg.Window(
         "Configuration",
         layout,
-        size=WINDOW_FULL_SIZE,
+        size=(1300, 700),
         element_justification="c",
         finalize=True,
         enable_close_attempted_event=True,
     )
     while True:
         event, values = window.read()
-        if event == "-EXIT-" or event == sg.WIN_CLOSE_ATTEMPTED_EVENT:
-            confirm = sg.popup_yes_no("¿Está seguro que desea salir?")
-            if confirm == "Yes":
-                exit()
-        if event == "-BACK-":
-            break
-        if event == "-FILELIST-":
-            try:
-                show_image(values["-FILELIST-"][0], images_directories, window)
-            except IndexError:
-                sg.popup_error("No hay ninguna imagen en este directorio para mostrar.")
-        if event == "-SAVE-":
-            confirm = sg.popup_yes_no("¿Confirma guardar los datos?")
-            if confirm == "Yes":
-                update_csv(values, images_directories, current_user)
+        match event:
+            case "-EXIT-" | sg.WIN_CLOSE_ATTEMPTED_EVENT:
+                confirm = sg.popup_yes_no("¿Está seguro que desea salir?")
+                if confirm == "Yes":
+                    exit()
+            case "-BACK-":
+                break
+            case "-FILELIST-":
+                try:
+                    show_image(values["-FILELIST-"][0], images_directories, window)
+                except IndexError:
+                    sg.popup_error(
+                        "No hay ninguna imagen en este directorio para mostrar."
+                    )
+            case "-SAVE-":
+                if (len(values["-DESCRIPTION-"]) < 255) and (
+                    len(values["-LABELS-"]) < 30
+                ):
+                    confirm = sg.popup_yes_no("¿Confirma guardar los datos?")
+                    if confirm == "Yes":
+                        update_csv(values, images_directories, current_user)
+                else:
+                    if len(values["-DESCRIPTION-"]) > 255:
+                        sg.popup_error("Descripción con más de 255 caracteres")
+                    if len(values["-LABELS-"]) > 30:
+                        sg.popup_error("Tags con más de 30 caracteres")
     window.close()

@@ -1,13 +1,9 @@
 # Grupo 19
 ====================
-# Notas:
-### Menu de inicio no recarga la informacion del JSON al volver a esa venta
-
-No requiere instalacion
 ----------------------
 
 ``` python  grupo19/UNLPimage/main.py ```
-### Licensia:
+### Licencia:
   Copyright [2023] [Massera Felipe, Alvarez Ayrton, Percara Francisco, Bruschi Tomas]
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,22 +40,31 @@ No requiere instalacion
   hacer distintos tipos de operaciones y modificaciones como collages, memes y personalizar
   su perfil.
 ### Funcionamiento del generador de memes y el generador de collages:
-  Estas funciones estan todavia pendientes a la hora de esta entrega, una vez que
-  se implementen se explicaran acordemente.
-### Librerias usadas:
-  Utilizamos una variedad de librerias para realizar distintas operaciones durante
-  el programa. Estas serian:
-  PySimpleGUI. Version: 4.60.4
-  json. Version: 2.0.9
-  PIL de la cual utilizamos image e imagedraw. Version: 9.5.0
-  csv. Version: 1.0
+  El generador de memes permite editar determinadas imagenes en base a templates y que
+  las imagenes esten en el directorio seleccionado en configuracion.
+  El generador de collages permite crear en base a templates un collage de imagenes previamente
+  etiquetadas por el usuario.
+  Ambos permiten el guardado del resultado como .JPG o .PNG.
 ### Python
   Este programa fue realizado con la version 3.11.2 de python y se trabajo con el
   mediante Visual Studio Code.
+### Librerias usadas:
+  Utilizamos una variedad de librerias para realizar distintas operaciones durante
+  el programa. Estas serian:
+  json. Version: 2.0.9
+  stylecloud Version:0.5.2
+  PySimpleGUI Version:4.60.4
+  Pillow Version:9.5.0
+  pandas Version:2.0.2
+  numpy Version:1.24.3
+  matplotlib Version:3.7.1
+  notebook Version:6.5.4
+  csv. Version: 1.0
 ### Guia de instalacion:
-  Todavia no tenemos un metodo de instalacion mas que tener descargados los archivos y
-  ejecutar el programa directamente. En el momento en que se tenga una manera de instalarse
-  esta guia sera actualizada.
+  El metodo de instalacion descargar los archivos, descargar un IDE y python y tener 
+  descargadas las dependencias que para poder instalarlas se debe ejecutar en la terminal de la carpeta 
+  grupo 19, y ejecutar el comando " pip install -r requirements.txt "., una vez cumplidos estos requisitos
+  podra ejecutar el programa. 
 ### Configuraciones posibles:
   Nuestro programa al enfocarse en la edicion de memes y creaciones de collages permitimos
   que se configuren las carpetas de las cuales se toman o guardan las imagenes tanto para la edicion de memes y
@@ -76,10 +81,14 @@ No requiere instalacion
   este proyecto y a su disponibiladad a la hora de ayudarnos a implementar nuevas soluciones que
   no hubieramos pensado frente a distintos problemas que surgieron a lo largo de nuestro proyecto.
   Desde ya muchas gracias:
-    Percara Francisco - Lic. en Informatica.
-    Bruschi Tomas - Lic. en Informatica.
-    Alvarez Ayrton - Analista programador Universitario.
-    Massera Felipe - Analista en tecnologias de la informacion y la comunicacion.
+
+    Percara Francisco - est. Lic. en Informatica.
+
+    Bruschi Tomas - est. Lic. en Informatica.
+
+    Alvarez Ayrton - est. Analista programador Universitario.
+    
+    Massera Felipe - est. Analista en tecnologias de la informacion y la comunicacion.
 ## Guia de uso:
   ### Start:
     Es la primer ventana que aparece al iniciar el programa y cuenta con distintas funcionalidades que
@@ -115,11 +124,25 @@ No requiere instalacion
     Boton "Salir": Permite salir de la aplicacion directamente.
     En el centro de la pantalla se muesta la imagen del perfil y debajo se encuentra el nombre del usuario.
   ### Meme:
-    Actualmente la ventana no tiene una funcionalidad y cuando se le implemente su correspondiente
-    funcion se actualizara su guia de uso y se accede mediante la ventana main.
+    Se accede atravez del main y presenta una lista con los templates
+    que se pueden seleccionar para las determinadas imagenes, una
+    vez seleccionada una de estas, se mostrara una previsualizacion 
+    de la misma y se podra utilizar el boton de editar que lleva 
+    a la siguiente ventana.
+    En esta ventana se podra seleccionar la fuente de una lista de las
+    mismas y se presentaran cubos de texto en los que podra ingresar
+    lo que quiera que aparezca en la imagen, una vez que este satisfecho
+    con los textos a escribir podra usar el boton actualizar para mostrar
+    los textos en la imagen y ver como es el resultado. Finalmente podra
+    guardar el meme, para el que tendra que ponerle un titulo y guardarlo
+    como .PNG o .JPG.
   ### Collage:
-    Actualmente la ventana no tiene una funcionalidad y cuando se le implemente su correspondiente
-    funcion se actualizara su guia de uso y se accede mediante la ventana main.
+    Se accede atravez del main y permite elegir un diseño entre una lista
+    ya predefinida sobre la que hacer el collage.
+    Luego de seleccionar un diseño se accede a la ventana en la que se podran
+    elegir las imagenes a utilizar seleccionando fotos ya etiquetadas por el usuario 
+    y dando la posibilidad de ponerle un titulo al collage. Una vez terminado
+    el diseño podra guardar la imagen en los formatoss .JPG y .PNG.
   ### Settings:
     En esta ventana que se accede desde la ventana main se puede modificar las carpetas con las que 
     la aplicacion puede trabajar mediantelos botones browse al lado a la derecha de la ventana. 

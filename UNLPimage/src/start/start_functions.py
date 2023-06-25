@@ -56,9 +56,9 @@ def read_users():
     try:
         with open(route, "r", encoding="utf-8") as file:
             users = json.load(file)
-        return users
     except FileNotFoundError:
-        print("EL ARCHIVO QUE INTENTA ABRIR NO EXISTE")
+        users = []
+    return users
 
 
 # ACTUALIZAION DE IMAGENES
